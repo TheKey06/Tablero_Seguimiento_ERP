@@ -3,27 +3,27 @@
 ---
 
 ## Estructura de carpetas
-
+```text
 Tablero_Seguimiento_ERP/
 │
+├── data/                      # Contiene los datos para cargar la gráfica
 │
-├── data/ # Contiene los datos para cargar la grafica
+├── src/                       # Código fuente reutilizable (Lógica del proyecto)
+│   ├── __init__.py
+│   ├── data_loader.py         # Carga de datos y conexiones
+│   ├── processing.py          # Aquí se cargan todas las funciones para procesar
+│   └── metrics.py             # Cálculo de métricas KPIs
 │
-├── src/ # Código fuente reutilizable (Lógica del proyecto)
-│ ├── **init**.py
-│ ├── data_loader.py # Carga de datos y conexiones
-│ ├── processing.py # Aqui se cargan todas las funciones para procesar
-│ ├── metrics.py # Calculo de metricas KPIs
+├── pages/                     # Páginas del tablero por separado
+│   ├── 1_Avance.py            # Muestra de avance de actividades y PMI
+│   ├── 2_Resumen_inicial.py   # Vista inicial del dashboard
+│   ├── 3_Seguimiento.py       # Seguimiento de objetivos
+│   ├── 4_Main.py              # Vista principal
+│   └── 5_Riesgos.py           # Levantamiento de riesgos por módulo
 │
-├── pages/ # Paginas del tablero por separado
-│ ├── 1. Avance.py # Muestra de avance de actividades y PMI (Project Manager Intitute)
-│ ├── 2. Resumen_inicial.py # Vista inicial del dashboard
-│ ├── 3. Seguimiento.py # Seguimiento de objetivos
-│ ├── 4. Main.py # Vista inicial del dashboard
-│ └── 5. Riesgos.py # Adelantasmiento de riesgos por modulo (estado)
-│
-├── app.py # Punto de entrada principal (Landing/Página de Inicio)
-├── requirements.txt # Dependencias del proyecto (pandas, streamlit, plotly, etc.)
-├── .gitignore # Archivos excluidos de control de versiones
-└── README.md # Documentación general del proyecto
+├── app.py                     # Punto de entrada principal (Landing)
+├── requirements.txt           # Dependencias del proyecto
+├── .gitignore                 # Archivos excluidos de Git
+└── README.md                  # Documentación general del proyecto
+```
 
