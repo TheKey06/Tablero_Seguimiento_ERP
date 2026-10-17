@@ -2,7 +2,7 @@
 
 ---
 
-´´´
+
 Tablero_Seguimiento_ERP/
 │
 │
@@ -25,4 +25,4 @@ Tablero_Seguimiento_ERP/
 ├── requirements.txt # Dependencias del proyecto (pandas, streamlit, plotly, etc.)
 ├── .gitignore # Archivos excluidos de control de versiones
 └── README.md # Documentación general del proyecto
-´´´
+
