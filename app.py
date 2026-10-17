@@ -7,7 +7,7 @@ de actividades. Todos los números salen de data/dataset_facturacion_erp.csv.
 Ejecutar:  streamlit run app.py
 """
 from __future__ import annotations
-
+from hooks import * # Importar todas las funciones del archivo hooks.py para tener el codigo mas limpio
 import io
 from datetime import date
 from html import escape
@@ -24,9 +24,9 @@ st.set_page_config(page_title="Vanguard — Facturación ERP", page_icon="📊",
 # ───────────────────────────── Configuración ─────────────────────────────
 BASE = Path(__file__).parent
 DATA_PATHS = [BASE / "data" / "dataset_facturacion_erp.csv", BASE / "dataset_facturacion_erp.csv"]
-LOGO = "https://lh3.googleusercontent.com/aida/AEtjO1X6G3CNIib1j2S_R031DoknWfak-aB40_p4x1hHqaMemb9lhalgsPzOzZIhxuyKcoXdgpOPklZ4SMRTq8qw1UoYX7nUE_7qM4JxSmZpuC8Qo_l9wPJ7WV3oiu-32Xh1IbP5FzuSwJTRXyD6vxibgCziFf6IwAygCaDyEKeU47QGvzRkOEF14aSORm0wU2j_3XWFZSssFmX2ZtbYL1TGNxqm589kpt9zHuFQofl0NbgfylXOL7YBW03OvpQ"
+LOGO = logo_data_uri(BASE / "images" / "logo.png")
 USER_NAME, USER_ROLE = "Keyner Rivas", "Gestor ERP"
-INITIATIVE = "Módulo de Facturación ERP"
+INITIATIVE = "Módulo de Facturación ERP- Grupo Éxito"
 INITIATIVE_TEXT = "Control de facturación electrónica, cumplimiento DIAN e integración tecnológica."
 NAV = ["Inicio", "Proyectos y Flujos", "Riesgos y Alertas", "Reportes Ejecutivos", "Configuración"]
 RISK_ORDER = ["Alto", "Medio", "Bajo"]
@@ -43,7 +43,7 @@ CUMPL_CLS = {"Entregada a tiempo": "ok", "Entregada con retraso": "warn", "Con r
              "En proceso": "sec", "Pendiente": "mut"}
 ALERT = {"OK": ("ok", "Sin alerta"), "Sobrecosto": ("warn", "Sobrecosto"),
          "Retraso": ("err", "Retraso"), "Revisar": ("sec", "Revisar")}
-MESES = ["", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+
 
 # ───────────────────────────── Estilos ─────────────────────────────
 CSS = """
@@ -149,44 +149,6 @@ div[data-baseweb="select"]>div{background:var(--low)!important;border:1px solid 
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
-
-
-# ───────────────────────────── Utilidades ─────────────────────────────
-def h(s: str) -> str:
-    """Compacta el HTML para que Markdown no lo interprete como bloque de código."""
-    return "".join(line.strip() for line in s.strip().splitlines())
-
-
-def fdate(ts, year: bool = False) -> str:
-    if pd.isna(ts):
-        return "—"
-    return f"{ts.day:02d} {MESES[ts.month]}" + (f" {ts.year}" if year else "")
-
-
-def cop(v: float) -> str:
-    return "$" + f"{v:,.0f}".replace(",", ".")
-
-
-def pct1(x: float) -> str:
-    return f"{x * 100:.1f}%".replace(".", ",")
-
-
-def num2(x) -> str:
-    return "—" if x is None else f"{x:.2f}".replace(".", ",")
-
-
-def sem_color(p: float) -> str:
-    """Semáforo para indicadores en % (0-100)."""
-    return "var(--tertiary)" if p >= 80 else "var(--warn)" if p >= 60 else "var(--error)"
-
-
-def bucket(r) -> str:
-    if r.estado == "Completado":
-        return "Completado"
-    if r.cumplimiento == "Con retraso" or r.dias_retraso > 0:
-        return "Con retraso"
-    return "En progreso" if r.estado == "En progreso" else "Pendiente"
-
 
 # ───────────────────────────── Datos ─────────────────────────────
 def default_bytes() -> bytes:
@@ -379,7 +341,7 @@ if view == "Inicio":
     st.markdown(h(f"""
     <section class="vg-head">
       <div><div class="lbl mono" style="font-size:11px">Visualización de Control</div>
-        <h1>Tablero de Facturación ERP</h1>
+        <h1>Tablero de Facturación ERP - Grupo Éxito</h1>
         <p>Seguimiento de actividades, entregables y riesgos del módulo de facturación · valores a la fecha de corte {fdate(CORTE, True)}.</p></div>
       <div class="vg-met">
         {metric("Avance ponderado", pct1(K['prog']), f"{delta:+.1f} pts vs plan".replace('.', ','), subcolor=dcol)}
